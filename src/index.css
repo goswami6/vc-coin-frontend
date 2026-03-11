@@ -1,0 +1,495 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+/* Tailwind v4 directives */
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-green: #5EFC8D;
+  --color-green-dark: #3dd872;
+  --color-cyan: #8EF9F3;
+  --color-cyan-dark: #5ee8df;
+  --color-blue: #93BEE0;
+  --color-blue-dark: #6da3cc;
+  --color-purple: #8477D1;
+  --color-purple-dark: #6a5cb8;
+  --color-deep-purple: #6D5972;
+  --color-deep-purple-dark: #4A3E4F;
+  --color-deep-purple-darker: #362D3A;
+  --color-bg-dark: #1a1225;
+
+  --font-sans: 'Inter', sans-serif;
+  --font-heading: 'Poppins', sans-serif;
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-glow: pulse-glow 2s ease-in-out infinite;
+  --animate-spin-slow: spin-slow 20s linear infinite;
+  --animate-fade-in-up: fadeInUp 0.5s ease-out;
+  --animate-slide-in-right: slideInRight 0.4s ease-out;
+  --animate-success-pop: success-pop 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+  @keyframes float {
+
+    0%,
+    100% {
+      transform: translate(-50%, -50%) translateY(0);
+    }
+
+    50% {
+      transform: translate(-50%, -50%) translateY(-20px);
+    }
+  }
+
+  @keyframes pulse-glow {
+
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgba(94, 252, 141, 0.15);
+    }
+
+    50% {
+      box-shadow: 0 0 0 8px rgba(94, 252, 141, 0);
+    }
+  }
+
+  @keyframes spin-slow {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideInRight {
+    from {
+      transform: translateX(30px);
+      opacity: 0;
+    }
+
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes success-pop {
+    0% {
+      transform: scale(0);
+    }
+
+    50% {
+      transform: scale(1.2);
+    }
+
+    100% {
+      transform: scale(1);
+    }
+  }
+}
+
+/* Base Styles */
+@layer base {
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-bg-dark);
+    color: #ffffff;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  ul,
+  ol {
+    list-style: none;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    border: none;
+    outline: none;
+    background: none;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+}
+
+/* Utility Classes for Header */
+@layer utilities {
+  .bg-deep-purple {
+    background-color: var(--color-deep-purple);
+  }
+
+  .bg-deep-purple-dark {
+    background-color: var(--color-deep-purple-dark);
+  }
+
+  .bg-deep-purple-darker {
+    background-color: var(--color-deep-purple-darker);
+  }
+
+  .bg-bg-dark {
+    background-color: var(--color-bg-dark);
+  }
+
+  .text-cyan {
+    color: var(--color-cyan);
+  }
+
+  .text-green {
+    color: var(--color-green);
+  }
+
+  .text-purple {
+    color: var(--color-purple);
+  }
+
+  .border-purple {
+    border-color: var(--color-purple);
+  }
+
+  .border-cyan {
+    border-color: var(--color-cyan);
+  }
+
+  .border-green {
+    border-color: var(--color-green);
+  }
+
+  .bg-cyan\/8 {
+    background-color: color-mix(in srgb, var(--color-cyan) 8%, transparent);
+  }
+
+  .bg-cyan\/12 {
+    background-color: color-mix(in srgb, var(--color-cyan) 12%, transparent);
+  }
+
+  .bg-green\/10 {
+    background-color: color-mix(in srgb, var(--color-green) 10%, transparent);
+  }
+
+  .backdrop-blur-glass {
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+  }
+
+  .shadow-glow-green {
+    box-shadow: 0 0 20px color-mix(in srgb, var(--color-green) 30%, transparent);
+  }
+
+  .shadow-glow-purple {
+    box-shadow: 0 0 20px color-mix(in srgb, var(--color-purple) 30%, transparent);
+  }
+
+  .shadow-card {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, var(--color-green), var(--color-cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.3s ease-out;
+  }
+}
+
+/* Add these animations to your existing CSS */
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translateY(0);
+  }
+
+  50% {
+    transform: translate(-50%, -50%) translateY(-20px);
+  }
+}
+
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(94, 252, 141, 0.15);
+  }
+
+  50% {
+    box-shadow: 0 0 0 8px rgba(94, 252, 141, 0);
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes bounce {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
+.animate-bounce {
+  animation: bounce 1.5s ease-in-out infinite;
+}
+
+/* Scroll animation for stats */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.animate-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Ensure these exist in your global CSS */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease-out;
+}
+
+.animate-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Add these utility classes if not already present */
+
+/* Gradient Text */
+.gradient-text {
+  background: linear-gradient(135deg, #5EFC8D, #8EF9F3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Background Colors */
+.bg-deep-purple {
+  background-color: #6D5972;
+}
+
+.bg-deep-purple-dark {
+  background-color: #4A3E4F;
+}
+
+.bg-white\/6 {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.bg-white\/7 {
+  background-color: rgba(255, 255, 255, 0.07);
+}
+
+.bg-green {
+  background-color: #5EFC8D;
+}
+
+.bg-green-dark {
+  background-color: #3dd872;
+}
+
+/* Text Colors */
+.text-cyan {
+  color: #8EF9F3;
+}
+
+.text-green {
+  color: #5EFC8D;
+}
+
+.text-white\/45 {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.text-white\/70 {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.text-bg-dark {
+  color: #1a1225;
+}
+
+/* Border Colors */
+.border-purple\/15 {
+  border-color: rgba(132, 119, 209, 0.15);
+}
+
+.border-white\/6 {
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+.border-white\/10 {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Hover Effects */
+.hover\:bg-purple:hover {
+  background-color: #8477D1;
+}
+
+.hover\:border-purple:hover {
+  border-color: #8477D1;
+}
+
+.hover\:text-green:hover {
+  color: #5EFC8D;
+}
+
+.hover\:text-cyan:hover {
+  color: #8EF9F3;
+}
+
+.hover\:pl-1\.5:hover {
+  padding-left: 0.375rem;
+}
+
+.hover\:-translate-y-1:hover {
+  transform: translateY(-0.25rem);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Sidebar scrollbar — thinner */
+.sidebar-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+}
+
+.sidebar-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* Firefox scrollbar */
+.custom-scrollbar,
+.sidebar-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
+}
