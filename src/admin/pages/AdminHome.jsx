@@ -92,11 +92,13 @@ const AdminHome = () => {
           </p>
         </div>
         {d.vcRate > 0 && (
-          <div className="bg-white/5 border border-white/5 rounded-xl px-4 py-2.5 flex items-center gap-2">
-            <Coins size={16} className="text-cyan" />
+          <div className="bg-linear-to-r from-cyan/10 to-purple/10 border border-cyan/20 rounded-xl px-4 py-2.5 flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-cyan/10 flex items-center justify-center">
+              <IndianRupee size={16} className="text-cyan" />
+            </div>
             <div>
               <p className="text-[10px] text-white/30 uppercase tracking-wider font-semibold">VC Rate</p>
-              <p className="text-sm font-bold text-cyan">₹{fmt(d.vcRate)}</p>
+              <p className="text-sm font-bold text-cyan">1 VC = ₹{fmt(d.vcRate)}</p>
             </div>
           </div>
         )}

@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import Commission from '../components/home/Commission';
 import LiveTransactions from '../components/home/LiveTransactions';
+import logo from '../../assets/logo/logo.png';
 
 const HomePage = () => {
   const [counts, setCounts] = useState({ investors: 0, volume: 0, countries: 0 });
@@ -257,9 +258,9 @@ const HomePage = () => {
             <div className="hidden lg:block w-full lg:w-2/5 relative h-162.5">
 
               {/* Main Floating Coin - Using 'absolute' to make manual positioning work */}
-              <div className="absolute z-20 w-40 h-40 md:w-56 md:h-56 bg-linear-to-br from-purple to-cyan rounded-full flex items-center justify-center text-white font-black text-5xl md:text-7xl shadow-glow-purple animate-float 
+              <div className="absolute z-20 w-40 h-40 md:w-56 md:h-56 bg-linear-to-br from-purple to-cyan rounded-full flex items-center justify-center shadow-glow-purple animate-float 
               left-10 md:left-62.5 top-25 md:top-82.5">
-                VC
+                <img src={logo} alt="VC Coin" className="w-24 h-24 md:w-36 md:h-36 object-contain drop-shadow-lg" />
                 <div className="absolute inset-0 bg-white/10 rounded-full blur-xl opacity-50"></div>
               </div>
 
