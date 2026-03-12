@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Mail,
   Lock,
@@ -7,13 +7,19 @@ import {
   LogIn
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import { api, setToken } from '../../utils/api';
+import { api, setToken, getToken } from '../../utils/api';
+import logo from '../../assets/logo/logo.png';
 
 const Login = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  // If already logged in, redirect to dashboard
+  useEffect(() => {
+    if (getToken()) navigate('/dashboard', { replace: true });
+  }, [navigate]);
 
   const [formData, setFormData] = useState({
     identifier: '',
@@ -72,9 +78,7 @@ const Login = () => {
           {/* Header & Logo */}
           <div className="text-center mb-8">
             <Link to="/" className="inline-flex items-center gap-3 mb-6 group">
-              <div className="w-10 h-10 bg-linear-to-br from-green to-cyan rounded-lg flex items-center justify-center shadow-glow-green">
-                <span className="text-bg-dark font-black text-xl">VC</span>
-              </div>
+              <img src={logo} alt="VC Coin" className="w-12 h-12 rounded-xl object-contain" />
               <span className="text-2xl font-black text-white tracking-tight">VC Coin</span>
             </Link>
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">Welcome Back</h2>

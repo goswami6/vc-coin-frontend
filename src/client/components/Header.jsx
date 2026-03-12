@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { getToken, clearToken, api } from '../../utils/api';
+import logo from '../../assets/logo/logo.png';
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -99,8 +100,8 @@ const Header = () => {
     >
       <div className="container mx-auto px-4 md:px-20 flex items-center justify-between h-17.5 md:h-15">
         {/* Logo */}
-        <Link to="/" className="logo flex items-center font-heading font-extrabold text-xl md:text-2xl shrink-0">
-          <i className="fas fa-coins" style={{ fontSize: '1.8rem', color: '#5EFC8D', marginRight: '8px' }}></i>
+        <Link to="/" className="logo flex items-center gap-2 font-heading font-extrabold text-xl md:text-2xl shrink-0">
+          <img src={logo} alt="VC Coin" className="w-9 h-9 md:w-10 md:h-10 rounded-lg object-contain" />
           <span className="text-white">VC Coin</span>
         </Link>
 

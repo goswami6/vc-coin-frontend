@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Menu, Home, LogOut } from 'lucide-react';
 import { clearToken } from '../../utils/api';
+import logo from '../../assets/logo/logo.png';
 
 const DashboardHeader = ({ user, onMenuClick }) => {
   const initial = user?.name?.charAt(0)?.toUpperCase() || 'U';
@@ -26,10 +27,10 @@ const DashboardHeader = ({ user, onMenuClick }) => {
 
           <Link
             to="/"
-            className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10 transition-all text-sm font-medium"
+            className="flex items-center gap-2 text-white/80 hover:text-white transition-all"
           >
-            <Home size={15} />
-            <span className="hidden sm:inline">Home</span>
+            <img src={logo} alt="VC Coin" className="w-8 h-8 rounded-lg object-contain" />
+            <span className="hidden sm:inline text-sm font-bold">VC Coin</span>
           </Link>
         </div>
 
