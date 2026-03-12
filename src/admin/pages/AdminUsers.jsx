@@ -408,14 +408,14 @@ const AdminUsers = () => {
                     <p className="text-white font-bold">{fmt(detailUser.balance?.wallet)} VC</p>
                     <p className="text-white/30 text-[10px]">Available: {fmt(detailUser.balance?.available)} VC</p>
                   </div>
-                  <div className="bg-white/5 border border-white/5 rounded-xl p-3">
+                  {/* <div className="bg-white/5 border border-white/5 rounded-xl p-3">
                     <div className="flex items-center gap-2 mb-1">
                       <ArrowDownToLine size={14} className="text-cyan" />
                       <p className="text-white/40 text-[10px] uppercase">Total Deposits</p>
                     </div>
                     <p className="text-white font-bold">{fmt(detailUser.depositStats?.totalDeposited)} VC</p>
                     <p className="text-white/30 text-[10px]">{detailUser.depositStats?.totalCount || 0} transactions</p>
-                  </div>
+                  </div> */}
                   <div className="bg-white/5 border border-white/5 rounded-xl p-3">
                     <div className="flex items-center gap-2 mb-1">
                       <TrendingUp size={14} className="text-purple" />
@@ -476,8 +476,8 @@ const AdminUsers = () => {
                     <button
                       onClick={() => { handleToggleBlock(detailUser.user.id); setDetailUser(null); }}
                       className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold transition-all ${detailUser.user?.is_blocked
-                          ? 'bg-green/10 text-green hover:bg-green/20'
-                          : 'bg-red-400/10 text-red-400 hover:bg-red-400/20'
+                        ? 'bg-green/10 text-green hover:bg-green/20'
+                        : 'bg-red-400/10 text-red-400 hover:bg-red-400/20'
                         }`}
                     >
                       {detailUser.user?.is_blocked ? <><ShieldCheck size={16} /> Unblock</> : <><ShieldOff size={16} /> Block</>}
