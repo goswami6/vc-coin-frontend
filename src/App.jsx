@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 
 import Header from './client/components/Header';
 import Footer from './client/components/Footer';
+import ScrollToTop from './client/components/ScrollToTop';
 
 // Lazy-loaded pages — only loaded when user navigates to them
 const HomePage = lazy(() => import('./client/pages/HomePage'));
@@ -56,6 +57,7 @@ const AppContent = () => {
 
   return (
     <div className="min-h-screen bg-bg-dark">
+      <ScrollToTop />
       {!shouldHide && <Header />}
 
       <main className={!shouldHide ? "pt-17.5 md:pt-15" : ""}>

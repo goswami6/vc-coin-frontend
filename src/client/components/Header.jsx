@@ -85,6 +85,10 @@ const Header = () => {
     { path: '/contact', label: 'Contact' },
   ];
 
+  const authNavLinks = isLoggedIn
+    ? [...navLinks, { path: '/dashboard', label: 'Dashboard' }]
+    : navLinks;
+
   return (
     <header
       className={`header fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
@@ -102,7 +106,7 @@ const Header = () => {
 
         {/* Desktop Navigation */}
         <nav className="nav-links hidden md:flex items-center gap-1">
-          {navLinks.map((link) => (
+          {authNavLinks.map((link) => (
             <Link
               key={link.path}
               to={link.path}
@@ -206,6 +210,16 @@ const Header = () => {
             </div>
           )}
 
+          {isLoggedIn && (
+            <button
+              onClick={handleLogout}
+              className="hidden md:flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-red-400 hover:bg-red-500/10 border border-red-500/20 rounded-md transition-all"
+            >
+              <i className="fas fa-sign-out-alt text-xs"></i>
+              <span>Logout</span>
+            </button>
+          )}
+
           {/* Mobile Menu Toggle */}
           <button
             onClick={toggleMobileNav}
@@ -231,7 +245,7 @@ const Header = () => {
         <div className="flex flex-col h-full pt-20 px-6 pb-10 overflow-y-auto">
           {/* Mobile Navigation Links */}
           <nav className="flex flex-col gap-2">
-            {navLinks.map((link) => (
+            {authNavLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
