@@ -150,12 +150,12 @@ const DashboardHome = () => {
           </div>
           <div>
             <p className="text-white/40 text-xs">VC Coin Live Rate</p>
-            <p className="text-white text-lg font-bold">1 VC = <span className="text-green">{Number(vcRate).toFixed(2)}</span></p>
+            <p className="text-white text-lg font-bold">1 VC = <span className="text-green">₹{Number(vcRate).toFixed(2)}</span></p>
           </div>
         </div>
         <div className="text-right">
           <p className="text-white/30 text-xs">Your Balance Worth</p>
-          <p className="text-cyan text-lg font-bold">{(Number(balance) * Number(vcRate)).toFixed(2)}</p>
+          <p className="text-cyan text-lg font-bold">₹{(Number(balance) * Number(vcRate)).toFixed(2)}</p>
         </div>
       </div>
 
