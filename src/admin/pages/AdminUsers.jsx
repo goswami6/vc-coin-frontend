@@ -10,15 +10,35 @@ import {
   Phone,
   Calendar,
   Hash,
+  Eye,
+  Wallet,
+  X,
+  Plus,
+  TrendingUp,
+  ArrowDownToLine,
+  ArrowUpFromLine,
+  Loader2,
 } from 'lucide-react';
 import { api } from '../../utils/api';
+
+const fmt = (n) => Number(n || 0).toLocaleString('en-IN', { maximumFractionDigits: 2 });
 
 const AdminUsers = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const [filter, setFilter] = useState('all'); // all | active | blocked | admin
+  const [filter, setFilter] = useState('all');
   const [processing, setProcessing] = useState(null);
+
+  // View Detail modal
+  const [detailUser, setDetailUser] = useState(null);
+  const [detailLoading, setDetailLoading] = useState(false);
+
+  // Add Wallet modal
+  const [walletUser, setWalletUser] = useState(null);
+  const [walletAmount, setWalletAmount] = useState('');
+  const [walletNote, setWalletNote] = useState('');
+  const [walletProcessing, setWalletProcessing] = useState(false);
 
   const fetchUsers = async () => {
     try {
@@ -39,6 +59,35 @@ const AdminUsers = () => {
       alert(err.message || 'Failed to update user.');
     } finally {
       setProcessing(null);
+    }
+  };
+
+  const handleViewDetail = async (userId) => {
+    setDetailLoading(true);
+    setDetailUser(null);
+    try {
+      const data = await api.getAdminUserDetail(userId);
+      setDetailUser(data);
+    } catch (err) {
+      alert(err.message || 'Failed to load user details.');
+    } finally {
+      setDetailLoading(false);
+    }
+  };
+
+  const handleAddWallet = async () => {
+    if (!walletUser || !walletAmount || Number(walletAmount) <= 0) return;
+    setWalletProcessing(true);
+    try {
+      await api.adminAddWallet(walletUser.id, Number(walletAmount), walletNote);
+      alert(`${walletAmount} VC added to ${walletUser.name || walletUser.email}'s wallet`);
+      setWalletUser(null);
+      setWalletAmount('');
+      setWalletNote('');
+    } catch (err) {
+      alert(err.message || 'Failed to add wallet.');
+    } finally {
+      setWalletProcessing(false);
     }
   };
 
@@ -112,8 +161,8 @@ const AdminUsers = () => {
               key={f}
               onClick={() => setFilter(f)}
               className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all ${filter === f
-                  ? 'bg-purple/20 text-purple border border-purple/30'
-                  : 'bg-white/5 text-white/40 border border-white/5 hover:text-white'
+                ? 'bg-purple/20 text-purple border border-purple/30'
+                : 'bg-white/5 text-white/40 border border-white/5 hover:text-white'
                 }`}
             >
               {f} ({counts[f]})
@@ -197,24 +246,43 @@ const AdminUsers = () => {
                       )}
                     </td>
                     <td className="px-5 py-4 text-right">
-                      {u.user_type !== 'admin' && (
+                      <div className="flex items-center justify-end gap-2">
+                        {/* View Detail */}
                         <button
-                          onClick={() => handleToggleBlock(u.id)}
-                          disabled={processing === u.id}
-                          className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${u.is_blocked
-                              ? 'bg-green/10 text-green hover:bg-green/20'
-                              : 'bg-red-400/10 text-red-400 hover:bg-red-400/20'
-                            } disabled:opacity-40`}
+                          onClick={() => handleViewDetail(u.id)}
+                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-purple/10 text-purple hover:bg-purple/20 transition-all"
                         >
-                          {processing === u.id ? (
-                            <div className="w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                          ) : u.is_blocked ? (
-                            <><ShieldCheck size={12} /> Unblock</>
-                          ) : (
-                            <><ShieldOff size={12} /> Block</>
-                          )}
+                          <Eye size={12} /> View
                         </button>
-                      )}
+                        {u.user_type !== 'admin' && (
+                          <>
+                            {/* Add Wallet */}
+                            <button
+                              onClick={() => setWalletUser(u)}
+                              className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-cyan/10 text-cyan hover:bg-cyan/20 transition-all"
+                            >
+                              <Plus size={12} /> Add VC
+                            </button>
+                            {/* Block/Unblock */}
+                            <button
+                              onClick={() => handleToggleBlock(u.id)}
+                              disabled={processing === u.id}
+                              className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${u.is_blocked
+                                ? 'bg-green/10 text-green hover:bg-green/20'
+                                : 'bg-red-400/10 text-red-400 hover:bg-red-400/20'
+                                } disabled:opacity-40`}
+                            >
+                              {processing === u.id ? (
+                                <div className="w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                              ) : u.is_blocked ? (
+                                <><ShieldCheck size={12} /> Unblock</>
+                              ) : (
+                                <><ShieldOff size={12} /> Block</>
+                              )}
+                            </button>
+                          </>
+                        )}
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -258,28 +326,232 @@ const AdminUsers = () => {
                   <p className="text-white/50 flex items-center gap-2"><Calendar size={12} /> {u.created_at ? new Date(u.created_at).toLocaleDateString() : '—'}</p>
                 </div>
 
-                {u.user_type !== 'admin' && (
-                  <button
-                    onClick={() => handleToggleBlock(u.id)}
-                    disabled={processing === u.id}
-                    className={`w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-bold transition-all ${u.is_blocked
+                {u.user_type !== 'admin' ? (
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handleViewDetail(u.id)}
+                      className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs font-bold bg-purple/10 text-purple hover:bg-purple/20 transition-all"
+                    >
+                      <Eye size={14} /> View
+                    </button>
+                    <button
+                      onClick={() => setWalletUser(u)}
+                      className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs font-bold bg-cyan/10 text-cyan hover:bg-cyan/20 transition-all"
+                    >
+                      <Plus size={14} /> Add VC
+                    </button>
+                    <button
+                      onClick={() => handleToggleBlock(u.id)}
+                      disabled={processing === u.id}
+                      className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs font-bold transition-all ${u.is_blocked
                         ? 'bg-green/10 text-green hover:bg-green/20'
                         : 'bg-red-400/10 text-red-400 hover:bg-red-400/20'
-                      } disabled:opacity-40`}
+                        } disabled:opacity-40`}
+                    >
+                      {processing === u.id ? (
+                        <div className="w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                      ) : u.is_blocked ? (
+                        <><ShieldCheck size={14} /> Unblock</>
+                      ) : (
+                        <><ShieldOff size={14} /> Block</>
+                      )}
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => handleViewDetail(u.id)}
+                    className="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs font-bold bg-purple/10 text-purple hover:bg-purple/20 transition-all"
                   >
-                    {processing === u.id ? (
-                      <div className="w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                    ) : u.is_blocked ? (
-                      <><ShieldCheck size={14} /> Unblock User</>
-                    ) : (
-                      <><ShieldOff size={14} /> Block User</>
-                    )}
+                    <Eye size={14} /> View Detail
                   </button>
                 )}
               </div>
             ))}
           </div>
         </>
+      )}
+      {/* View Detail Modal */}
+      {(detailUser || detailLoading) && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-bg-dark border border-white/10 rounded-2xl w-full max-w-lg overflow-hidden max-h-[85vh] flex flex-col">
+            <div className="flex items-center justify-between p-5 border-b border-white/5">
+              <h2 className="text-lg font-bold text-white">User Details</h2>
+              <button onClick={() => setDetailUser(null)} className="text-white/30 hover:text-white">
+                <X size={20} />
+              </button>
+            </div>
+            {detailLoading ? (
+              <div className="flex items-center justify-center py-16">
+                <Loader2 size={28} className="animate-spin text-purple" />
+              </div>
+            ) : detailUser && (
+              <div className="p-5 space-y-4 overflow-y-auto">
+                {/* User Info */}
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-full bg-purple/10 flex items-center justify-center text-purple font-bold text-xl uppercase">
+                    {(detailUser.user?.name || detailUser.user?.email || '?')[0]}
+                  </div>
+                  <div>
+                    <p className="text-white font-bold text-lg">{detailUser.user?.name || '—'}</p>
+                    <p className="text-white/40 text-sm">{detailUser.user?.email || '—'}</p>
+                    <p className="text-white/30 text-xs">{detailUser.user?.mobile || '—'}</p>
+                  </div>
+                </div>
+
+                {/* Stats Grid */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="bg-white/5 border border-white/5 rounded-xl p-3">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Wallet size={14} className="text-green" />
+                      <p className="text-white/40 text-[10px] uppercase">Wallet Balance</p>
+                    </div>
+                    <p className="text-white font-bold">{fmt(detailUser.balance?.wallet)} VC</p>
+                    <p className="text-white/30 text-[10px]">Available: {fmt(detailUser.balance?.available)} VC</p>
+                  </div>
+                  <div className="bg-white/5 border border-white/5 rounded-xl p-3">
+                    <div className="flex items-center gap-2 mb-1">
+                      <ArrowDownToLine size={14} className="text-cyan" />
+                      <p className="text-white/40 text-[10px] uppercase">Total Deposits</p>
+                    </div>
+                    <p className="text-white font-bold">{fmt(detailUser.depositStats?.totalDeposited)} VC</p>
+                    <p className="text-white/30 text-[10px]">{detailUser.depositStats?.totalCount || 0} transactions</p>
+                  </div>
+                  <div className="bg-white/5 border border-white/5 rounded-xl p-3">
+                    <div className="flex items-center gap-2 mb-1">
+                      <TrendingUp size={14} className="text-purple" />
+                      <p className="text-white/40 text-[10px] uppercase">Investments</p>
+                    </div>
+                    <p className="text-white font-bold">{fmt(detailUser.investmentStats?.activeAmount)} VC</p>
+                    <p className="text-white/30 text-[10px]">{detailUser.investmentStats?.activeCount || 0} active / {detailUser.investmentStats?.totalCount || 0} total</p>
+                  </div>
+                  <div className="bg-white/5 border border-white/5 rounded-xl p-3">
+                    <div className="flex items-center gap-2 mb-1">
+                      <ArrowUpFromLine size={14} className="text-red-400" />
+                      <p className="text-white/40 text-[10px] uppercase">Withdrawals</p>
+                    </div>
+                    <p className="text-white font-bold">{fmt(detailUser.withdrawalStats?.totalAmount)} VC</p>
+                    <p className="text-white/30 text-[10px]">{detailUser.withdrawalStats?.totalCount || 0} approved</p>
+                  </div>
+                </div>
+
+                {/* Extra Info */}
+                <div className="bg-white/5 border border-white/5 rounded-xl p-4 space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-white/40">Referral Code</span>
+                    <span className="text-purple font-mono font-bold">{detailUser.user?.referral_code || '—'}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-white/40">Direct Referrals</span>
+                    <span className="text-white font-bold">{detailUser.referralCount || 0}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-white/40">Status</span>
+                    <span className={`font-bold ${detailUser.user?.is_blocked ? 'text-red-400' : 'text-green'}`}>
+                      {detailUser.user?.is_blocked ? 'Blocked' : 'Active'}
+                    </span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-white/40">Market Locked</span>
+                    <span className="text-white font-bold">{fmt(detailUser.balance?.marketLocked)} VC</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-white/40">Pending Withdrawals</span>
+                    <span className="text-white font-bold">{fmt(detailUser.balance?.pendingWithdrawals)} VC</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-white/40">Joined</span>
+                    <span className="text-white">{detailUser.user?.created_at ? new Date(detailUser.user.created_at).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'}</span>
+                  </div>
+                </div>
+
+                {/* Actions */}
+                {detailUser.user?.user_type !== 'admin' && (
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => { setWalletUser(detailUser.user); setDetailUser(null); }}
+                      className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold bg-cyan/10 text-cyan hover:bg-cyan/20 transition-all"
+                    >
+                      <Plus size={16} /> Add VC to Wallet
+                    </button>
+                    <button
+                      onClick={() => { handleToggleBlock(detailUser.user.id); setDetailUser(null); }}
+                      className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold transition-all ${detailUser.user?.is_blocked
+                          ? 'bg-green/10 text-green hover:bg-green/20'
+                          : 'bg-red-400/10 text-red-400 hover:bg-red-400/20'
+                        }`}
+                    >
+                      {detailUser.user?.is_blocked ? <><ShieldCheck size={16} /> Unblock</> : <><ShieldOff size={16} /> Block</>}
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Add Wallet Modal */}
+      {walletUser && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-bg-dark border border-white/10 rounded-2xl w-full max-w-md overflow-hidden">
+            <div className="flex items-center justify-between p-5 border-b border-white/5">
+              <h2 className="text-lg font-bold text-white">Add VC to Wallet</h2>
+              <button onClick={() => { setWalletUser(null); setWalletAmount(''); setWalletNote(''); }} className="text-white/30 hover:text-white">
+                <X size={20} />
+              </button>
+            </div>
+            <div className="p-5 space-y-4">
+              {/* User info */}
+              <div className="flex items-center gap-3 bg-white/5 border border-white/5 rounded-xl p-3">
+                <div className="w-10 h-10 rounded-full bg-purple/10 flex items-center justify-center text-purple font-bold uppercase">
+                  {(walletUser.name || walletUser.email || '?')[0]}
+                </div>
+                <div>
+                  <p className="text-white font-semibold text-sm">{walletUser.name || '—'}</p>
+                  <p className="text-white/30 text-xs">{walletUser.email || '—'} &bull; #{walletUser.id}</p>
+                </div>
+              </div>
+
+              {/* Amount */}
+              <div>
+                <label className="text-white/40 text-xs font-medium mb-1.5 block">Amount (VC)</label>
+                <input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value={walletAmount}
+                  onChange={(e) => setWalletAmount(e.target.value)}
+                  placeholder="Enter VC amount"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-cyan/50"
+                />
+              </div>
+
+              {/* Note */}
+              <div>
+                <label className="text-white/40 text-xs font-medium mb-1.5 block">Note (optional)</label>
+                <input
+                  type="text"
+                  value={walletNote}
+                  onChange={(e) => setWalletNote(e.target.value)}
+                  placeholder="e.g. Bonus, Compensation"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-cyan/50"
+                />
+              </div>
+
+              <button
+                onClick={handleAddWallet}
+                disabled={walletProcessing || !walletAmount || Number(walletAmount) <= 0}
+                className="w-full bg-linear-to-r from-cyan to-purple text-white font-black py-3.5 rounded-xl flex items-center justify-center gap-2 text-sm hover:brightness-110 transition-all disabled:opacity-40"
+              >
+                {walletProcessing ? (
+                  <Loader2 size={16} className="animate-spin" />
+                ) : (
+                  <><Wallet size={16} /> Add {walletAmount ? `${walletAmount} VC` : 'VC'} to Wallet</>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

@@ -24,7 +24,7 @@ const navItems = [
   { label: 'Dashboard', icon: LayoutDashboard, path: '/admin' },
   { label: 'Investment Plans', icon: TrendingUp, path: '/admin/plans' },
   { label: 'Investments', icon: Zap, path: '/admin/investments' },
-  { label: 'Deposits', icon: ArrowDownToLine, path: '/admin/deposits' },
+  // { label: 'Deposits', icon: ArrowDownToLine, path: '/admin/deposits' },
   { label: 'Marketplace', icon: Store, path: '/admin/marketplace' },
   { label: 'Withdrawals', icon: ArrowUpFromLine, path: '/admin/withdrawals' },
   { label: 'Users', icon: Users, path: '/admin/users' },

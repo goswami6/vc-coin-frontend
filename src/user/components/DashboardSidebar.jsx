@@ -20,7 +20,7 @@ import logo from '../../assets/logo/logo.png';
 const navItems = [
   { label: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
   { label: 'Wallet', icon: Wallet, path: '/dashboard/wallet' },
-  { label: 'Deposit', icon: ArrowDownToLine, path: '/dashboard/deposit' },
+  // { label: 'Deposit', icon: ArrowDownToLine, path: '/dashboard/deposit' },
   { label: 'Withdraw', icon: ArrowUpFromLine, path: '/dashboard/withdraw' },
   { label: 'Investments', icon: TrendingUp, path: '/dashboard/investments' },
   { label: 'Transfer', icon: Send, path: '/dashboard/transfer' },

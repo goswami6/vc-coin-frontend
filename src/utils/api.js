@@ -183,8 +183,15 @@ export const api = {
 
   // Admin Users
   getAdminUsers: () => fetchJson('/api/admin/users', { headers: authHeaders() }),
+  getAdminUserDetail: (id) => fetchJson(`/api/admin/users/${id}/detail`, { headers: authHeaders() }),
   toggleBlockUser: (id) =>
     fetchJson(`/api/admin/users/${id}/toggle-block`, { method: 'PUT', headers: { ...authHeaders() } }),
+  adminAddWallet: (id, amount, note) =>
+    fetchJson(`/api/admin/users/${id}/add-wallet`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...authHeaders() },
+      body: JSON.stringify({ amount, note }),
+    }),
 
   // Admin Reports
   getReport: (from, to) => fetchJson(`/api/admin/reports?from=${from}&to=${to}`, { headers: authHeaders() }),
