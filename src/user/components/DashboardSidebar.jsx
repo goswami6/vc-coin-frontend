@@ -15,6 +15,7 @@ import {
   Store,
 } from 'lucide-react';
 import { clearToken } from '../../utils/api';
+import logo from '../../assets/logo/logo.png';
 
 const navItems = [
   { label: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
@@ -54,9 +55,7 @@ const DashboardSidebar = ({ open, onClose }) => {
         {/* Logo */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-white/5">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-linear-to-br from-green to-cyan rounded-lg flex items-center justify-center">
-              <span className="text-bg-dark font-black text-base">VC</span>
-            </div>
+            <img src={logo} alt="VC Coin" className="w-9 h-9 rounded-lg object-contain" />
             <span className="text-xl font-black text-white tracking-tight">VC Coin</span>
           </div>
           <button onClick={onClose} className="lg:hidden text-white/40 hover:text-white">

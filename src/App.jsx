@@ -5,27 +5,28 @@ import Header from './client/components/Header';
 import Footer from './client/components/Footer';
 import ScrollToTop from './client/components/ScrollToTop';
 
-// Lazy-loaded pages — only loaded when user navigates to them
-const HomePage = lazy(() => import('./client/pages/HomePage'));
+// Eager-loaded: most visited pages load instantly
+import HomePage from './client/pages/HomePage';
+import Login from './client/pages/Login';
+import Signup from './client/pages/SignupPage';
+import DashboardLayout from './user/pages/DashboardLayout';
+import DashboardHome from './user/pages/DashboardHome';
+import WalletPage from './user/pages/WalletPage';
+import Investments from './user/pages/Investments';
+import Deposit from './user/pages/Deposit';
+import WithdrawPage from './user/pages/WithdrawPage';
+import TransferPage from './user/pages/TransferPage';
+import MarketplacePage from './user/pages/MarketplacePage';
+import TeamPage from './user/pages/TeamPage';
+import TransactionsPage from './user/pages/TransactionsPage';
+import UserSettings from './user/pages/UserSettings';
+
+// Lazy-loaded: less frequent pages
 const AboutPage = lazy(() => import('./client/pages/AboutPage'));
 const ContactPage = lazy(() => import('./client/pages/ContactPage'));
 const TermsPage = lazy(() => import('./client/pages/TermsPage'));
 const PrivacyPage = lazy(() => import('./client/pages/PrivacyPage'));
-const Signup = lazy(() => import('./client/pages/SignupPage'));
-const Login = lazy(() => import('./client/pages/Login'));
 const ForgotPassword = lazy(() => import('./client/pages/ForgotPassword'));
-
-const DashboardLayout = lazy(() => import('./user/pages/DashboardLayout'));
-const DashboardHome = lazy(() => import('./user/pages/DashboardHome'));
-const WalletPage = lazy(() => import('./user/pages/WalletPage'));
-const Investments = lazy(() => import('./user/pages/Investments'));
-const Deposit = lazy(() => import('./user/pages/Deposit'));
-const WithdrawPage = lazy(() => import('./user/pages/WithdrawPage'));
-const TransferPage = lazy(() => import('./user/pages/TransferPage'));
-const MarketplacePage = lazy(() => import('./user/pages/MarketplacePage'));
-const TeamPage = lazy(() => import('./user/pages/TeamPage'));
-const TransactionsPage = lazy(() => import('./user/pages/TransactionsPage'));
-const UserSettings = lazy(() => import('./user/pages/UserSettings'));
 
 const AdminLayout = lazy(() => import('./admin/pages/AdminLayout'));
 const AdminHome = lazy(() => import('./admin/pages/AdminHome'));
