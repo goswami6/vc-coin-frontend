@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { ChevronUp } from 'lucide-react';
 
 // Auto-scroll to top on route change + floating button
 const ScrollToTop = () => {
@@ -57,7 +58,7 @@ const ScrollToTop = () => {
         e.currentTarget.style.boxShadow = '0 4px 20px rgba(94, 252, 141, 0.4)';
       }}
     >
-      <i className="fas fa-chevron-up" style={{ fontSize: '14px' }}></i>
+      <ChevronUp size={20} strokeWidth={3} />
     </button>
   );
 };

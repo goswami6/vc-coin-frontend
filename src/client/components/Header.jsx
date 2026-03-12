@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { getToken, clearToken, api } from '../../utils/api';
+import { Wallet, PieChart, Users, User, LogOut } from 'lucide-react';
 import logo from '../../assets/logo/logo.png';
 
 const Header = () => {
@@ -129,7 +130,7 @@ const Header = () => {
               className="nav-wallet hidden xs:flex items-center gap-2 px-3 md:px-4 py-2 bg-green/10 border border-green/20 rounded-md text-xs md:text-sm font-semibold text-green"
               id="navWallet"
             >
-              <i className="fas fa-wallet text-[10px] md:text-xs"></i>
+              <Wallet size={12} />
               <span id="navBalance" className="whitespace-nowrap">{userBalance}</span>
             </div>
           )}
@@ -157,28 +158,28 @@ const Header = () => {
                     className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-sm text-sm text-white/70 hover:bg-white/5 hover:text-cyan transition-all"
                     onClick={() => setUserDropdownOpen(false)}
                   >
-                    <i className="fas fa-chart-pie text-xs"></i> Dashboard
+                    <PieChart size={14} /> Dashboard
                   </Link>
                   <Link
                     to="/dashboard/wallet"
                     className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-sm text-sm text-white/70 hover:bg-white/5 hover:text-cyan transition-all"
                     onClick={() => setUserDropdownOpen(false)}
                   >
-                    <i className="fas fa-wallet text-xs"></i> My Wallet
+                    <Wallet size={14} /> My Wallet
                   </Link>
                   <Link
                     to="/dashboard/team"
                     className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-sm text-sm text-white/70 hover:bg-white/5 hover:text-cyan transition-all"
                     onClick={() => setUserDropdownOpen(false)}
                   >
-                    <i className="fas fa-users text-xs"></i> My Team
+                    <Users size={14} /> My Team
                   </Link>
                   <Link
                     to="/dashboard/settings"
                     className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-sm text-sm text-white/70 hover:bg-white/5 hover:text-cyan transition-all"
                     onClick={() => setUserDropdownOpen(false)}
                   >
-                    <i className="fas fa-user text-xs"></i> Profile
+                    <User size={14} /> Profile
                   </Link>
 
                   <div className="divider h-px bg-white/6 my-1.5"></div>
@@ -187,7 +188,7 @@ const Header = () => {
                     onClick={handleLogout}
                     className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-sm text-sm text-red-400 hover:bg-red-500/10 transition-all w-full text-left"
                   >
-                    <i className="fas fa-sign-out-alt text-xs"></i> Logout
+                    <LogOut size={14} /> Logout
                   </button>
                 </div>
               )}
@@ -216,7 +217,7 @@ const Header = () => {
               onClick={handleLogout}
               className="hidden md:flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-red-400 hover:bg-red-500/10 border border-red-500/20 rounded-md transition-all"
             >
-              <i className="fas fa-sign-out-alt text-xs"></i>
+              <LogOut size={14} />
               <span>Logout</span>
             </button>
           )}
@@ -267,22 +268,22 @@ const Header = () => {
               <>
                 <div className="flex items-center justify-between px-4 py-4 bg-green/10 border border-green/20 rounded-lg text-green">
                   <div className="flex items-center gap-3">
-                    <i className="fas fa-wallet text-sm"></i>
+                    <Wallet size={16} />
                     <span className="font-semibold uppercase text-xs tracking-wider">Balance</span>
                   </div>
                   <span className="font-bold">{userBalance}</span>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3 mt-2">
-                  <MobileMenuBtn to="/dashboard/wallet" icon="fa-wallet" label="Wallet" onClick={() => setMobileMenuOpen(false)} />
-                  <MobileMenuBtn to="/dashboard/settings" icon="fa-user" label="Profile" onClick={() => setMobileMenuOpen(false)} />
+                  <MobileMenuBtn to="/dashboard/wallet" icon={<Wallet size={20} />} label="Wallet" onClick={() => setMobileMenuOpen(false)} />
+                  <MobileMenuBtn to="/dashboard/settings" icon={<User size={20} />} label="Profile" onClick={() => setMobileMenuOpen(false)} />
                 </div>
 
                 <button
                   onClick={handleLogout}
                   className="mt-4 flex items-center justify-center gap-3 px-4 py-4 text-base font-semibold rounded-md text-red-400 bg-red-500/5 border border-red-500/10 transition-all w-full"
                 >
-                  <i className="fas fa-sign-out-alt"></i> Logout
+                  <LogOut size={18} /> Logout
                 </button>
               </>
             ) : (
@@ -325,7 +326,7 @@ const MobileMenuBtn = ({ to, icon, label, onClick }) => (
     onClick={onClick}
     className="flex flex-col items-center justify-center gap-2 p-4 rounded-lg bg-white/5 border border-white/10 text-white/70"
   >
-    <i className={`fas ${icon} text-lg`}></i>
+    {icon}
     <span className="text-xs font-medium">{label}</span>
   </Link>
 );

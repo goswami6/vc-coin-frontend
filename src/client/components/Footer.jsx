@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { Twitter, Send, Instagram, Youtube } from 'lucide-react'; 
 import logo from '../../assets/logo/logo.png';
 
 const Footer = () => {
@@ -26,10 +27,10 @@ const Footer = () => {
   ];
 
   const socialLinks = [
-    { icon: 'fa-brands fa-twitter', label: 'Twitter' },
-    { icon: 'fa-brands fa-telegram-plane', label: 'Telegram' },
-    { icon: 'fa-brands fa-instagram', label: 'Instagram' },
-    { icon: 'fa-brands fa-youtube', label: 'YouTube' },
+    { icon: <Twitter size={16} />, label: 'Twitter' },
+    { icon: <Send size={16} />, label: 'Telegram' },
+    { icon: <Instagram size={16} />, label: 'Instagram' },
+    { icon: <Youtube size={16} />, label: 'YouTube' },
   ];
 
   const linkStyle = {
@@ -147,7 +148,7 @@ const Footer = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <i className={social.icon} style={{ fontSize: '14px' }}></i>
+                  {social.icon}
                 </a>
               ))}
             </div>
