@@ -248,9 +248,9 @@ const Investments = () => {
               <RefreshCw size={18} className="text-purple" />
             </div>
             <div>
-              <p className="text-sm font-bold text-white">Auto Renewal Active</p>
+              <p className="text-sm font-bold text-white">Auto Renewal</p>
               <p className="text-xs text-white/40 mt-0.5">
-                Investments auto-renew when their cycle completes — same amount, same plan, continuous earnings. Toggle it off on any investment to stop renewal.
+                Enable auto-renewal on any investment to automatically re-invest when the cycle completes — same amount, same plan, continuous earnings. By default auto-renewal is off.
               </p>
             </div>
           </div>
@@ -302,14 +302,14 @@ const Investments = () => {
                       {isActive && (
                         <button
                           onClick={handleToggleRenew}
-                          title={inv.auto_renew ? 'Auto-renewal ON' : 'Auto-renewal OFF'}
-                          className={`flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded-full transition-all ${inv.auto_renew
-                            ? 'bg-green/10 text-green hover:bg-green/20'
-                            : 'bg-white/5 text-white/30 hover:bg-white/10'
-                            }`}
+                          title={inv.auto_renew ? 'Auto-renewal ON — click to disable' : 'Auto-renewal OFF — click to enable'}
+                          className="flex items-center gap-1.5 text-[10px] font-bold transition-all"
                         >
-                          <RefreshCw size={10} />
-                          {inv.auto_renew ? 'AUTO' : 'OFF'}
+                          <span className={`text-white/40 ${!inv.auto_renew ? 'font-black text-white/60' : ''}`}>OFF</span>
+                          <div className={`relative w-8 h-4 rounded-full transition-all ${inv.auto_renew ? 'bg-green' : 'bg-white/10'}`}>
+                            <div className={`absolute top-0.5 w-3 h-3 rounded-full bg-white shadow transition-all ${inv.auto_renew ? 'left-[18px]' : 'left-0.5'}`} />
+                          </div>
+                          <span className={`text-white/40 ${inv.auto_renew ? 'font-black text-green' : ''}`}>ON</span>
                         </button>
                       )}
                       <span className={`text-[10px] font-black px-2.5 py-1 rounded-full uppercase ${isActive ? 'bg-green/10 text-green' : 'bg-white/5 text-white/30'
