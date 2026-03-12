@@ -7,7 +7,6 @@ import {
   Settings,
   LogOut,
   X,
-  ShieldCheck,
   BarChart3,
   FileText,
   BellRing,
@@ -19,6 +18,7 @@ import {
   MessageSquare,
 } from 'lucide-react';
 import { clearToken } from '../../utils/api';
+import logo from '../../assets/logo/logo.png';
 
 const navItems = [
   { label: 'Dashboard', icon: LayoutDashboard, path: '/admin' },
@@ -59,9 +59,7 @@ const AdminSidebar = ({ open, onClose }) => {
         {/* Logo */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-white/5">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-linear-to-br from-purple to-cyan rounded-lg flex items-center justify-center">
-              <ShieldCheck size={18} className="text-white" />
-            </div>
+            <img src={logo} alt="VC Coin" className="w-9 h-9 rounded-lg object-contain" />
             <div>
               <span className="text-lg font-black text-white tracking-tight block leading-tight">VC Coin</span>
               <span className="text-[10px] font-semibold text-purple uppercase tracking-widest">Admin Panel</span>
