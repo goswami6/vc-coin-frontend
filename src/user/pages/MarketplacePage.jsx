@@ -4,7 +4,7 @@ import {
   ArrowUpRight, Loader2, AlertCircle, Info,
   Coins, Copy, Tag, Wallet, Upload, Image, IndianRupee,
 } from 'lucide-react';
-import { api } from '../../utils/api';
+import { api, API_BASE_URL } from '../../utils/api';
 
 const MarketplacePage = () => {
   const [tab, setTab] = useState('buy');
@@ -412,6 +412,20 @@ const MarketplacePage = () => {
                       <div className="mt-3 pt-3 border-t border-white/5 flex items-center justify-between">
                         <span className="text-white/40 text-xs">Buyer</span>
                         <span className="text-white text-xs font-medium">{o.buyer_name}</span>
+                      </div>
+                    )}
+                    {o.payment_proof && (
+                      <div className="mt-3 pt-3 border-t border-white/5">
+                        <p className="text-white/40 text-xs mb-2 flex items-center gap-1">
+                          <Image size={12} /> Payment Proof
+                        </p>
+                        <a href={`${API_BASE_URL}/uploads/${o.payment_proof}`} target="_blank" rel="noopener noreferrer">
+                          <img
+                            src={`${API_BASE_URL}/uploads/${o.payment_proof}`}
+                            alt="Payment proof"
+                            className="w-full max-h-48 object-contain bg-black/30 rounded-lg border border-white/10 cursor-pointer hover:opacity-80 transition"
+                          />
+                        </a>
                       </div>
                     )}
                     {o.admin_note && (
