@@ -12,6 +12,11 @@ const DashboardHeader = ({ user, onMenuClick }) => {
     navigate('/');
   };
 
+  const handleExitUserMode = () => {
+    sessionStorage.removeItem('adminUserMode');
+    navigate('/admin');
+  };
+
   return (
     <header className="sticky top-0 z-30 bg-[#140e1f]/80 backdrop-blur-xl border-b border-white/5">
       <div className="flex items-center justify-between px-4 md:px-8 py-3.5">
@@ -27,6 +32,15 @@ const DashboardHeader = ({ user, onMenuClick }) => {
 
         {/* Right: Logout + User */}
         <div className="flex items-center gap-3">
+          {sessionStorage.getItem('adminUserMode') && (
+            <button
+              onClick={handleExitUserMode}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-cyan/10 border border-cyan/20 text-cyan hover:bg-cyan/20 transition-all text-sm font-medium"
+            >
+              <LogOut size={15} />
+              <span className="hidden sm:inline">Exit User Mode</span>
+            </button>
+          )}
           <button
             onClick={handleLogout}
             className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 transition-all text-sm font-medium"

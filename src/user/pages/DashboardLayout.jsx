@@ -17,10 +17,12 @@ const DashboardLayout = () => {
       return;
     }
 
+    // If adminUserMode is set, allow admin to view user dashboard
+    const adminUserMode = sessionStorage.getItem('adminUserMode');
     api.me()
       .then((data) => {
         const u = data.user || data;
-        if (u.user_type === 'admin') {
+        if (u.user_type === 'admin' && !adminUserMode) {
           navigate('/admin', { replace: true });
           return;
         }

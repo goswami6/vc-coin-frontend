@@ -280,6 +280,16 @@ const AdminUsers = () => {
                                 <><ShieldOff size={12} /> Block</>
                               )}
                             </button>
+                            {/* Login as User */}
+                            <button
+                              onClick={() => {
+                                sessionStorage.setItem('adminUserMode', u.id);
+                                window.location.href = '/dashboard';
+                              }}
+                              className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-green/10 text-green hover:bg-green/20 transition-all"
+                            >
+                              <ShieldCheck size={12} /> Login
+                            </button>
                           </>
                         )}
                       </div>
