@@ -122,18 +122,20 @@ export const api = {
   myTransfers: () => fetchJson('/api/transfers/my', { headers: authHeaders() }),
 
   // Marketplace (Buy/Sell)
-  createSellOrder: (payload) =>
-    fetchJson('/api/marketplace', {
-      method: 'POST',
-      headers: { ...authHeaders() },
-      body: JSON.stringify(payload),
-    }),
+  createSellOrder: (formData) => fetchMultipart('/api/marketplace', formData),
   mySellOrders: () => fetchJson('/api/marketplace/my', { headers: authHeaders() }),
   browseMarketplace: () => fetchJson('/api/marketplace/browse', { headers: authHeaders() }),
   buyOrder: (id, formData) => fetchMultipart(`/api/marketplace/buy/${id}`, formData),
+  myPurchases: () => fetchJson('/api/marketplace/my-purchases', { headers: authHeaders() }),
   getAllSellOrders: () => fetchJson('/api/marketplace/all', { headers: authHeaders() }),
   updateSellOrderStatus: (id, payload) =>
     fetchJson(`/api/marketplace/${id}/status`, {
+      method: 'PUT',
+      headers: { ...authHeaders() },
+      body: JSON.stringify(payload),
+    }),
+  updatePurchaseStatus: (id, payload) =>
+    fetchJson(`/api/marketplace/purchases/${id}/status`, {
       method: 'PUT',
       headers: { ...authHeaders() },
       body: JSON.stringify(payload),
