@@ -88,7 +88,7 @@ const Login = () => {
           <form onSubmit={handleLoginSubmit} className="space-y-5 animate-fade-in-up">
             {/* Email or Mobile Input */}
             <div className="space-y-2">
-              <label className="text-white/70 text-sm font-medium ml-1">Email or Mobile Number</label>
+              <label className="text-white/70 text-sm font-medium ml-1">Email / Mobile Number / UserID</label>
               <div className="relative group">
                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-cyan transition-colors" size={20} />
                 <input
