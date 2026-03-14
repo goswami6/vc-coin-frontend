@@ -19,7 +19,7 @@ import {
   ArrowUpFromLine,
   Loader2,
 } from 'lucide-react';
-import { api } from '../../utils/api';
+import { api, API_BASE_URL } from '../../utils/api';
 
 const fmt = (n) => Number(n || 0).toLocaleString('en-IN', { maximumFractionDigits: 2 });
 
@@ -282,9 +282,21 @@ const AdminUsers = () => {
                             </button>
                             {/* Login as User */}
                             <button
-                              onClick={() => {
-                                sessionStorage.setItem('adminUserMode', u.id);
-                                window.location.href = '/dashboard';
+                              onClick={async () => {
+                                try {
+                                  const res = await fetch(`${API_BASE_URL}/api/admin/users/${u.id}/impersonate`, {
+                                    method: 'POST',
+                                    headers: { Authorization: `Bearer ${sessionStorage.getItem('vc_token')}` },
+                                  });
+                                  const data = await res.json();
+                                  if (!res.ok || !data.token) throw new Error(data.message || 'Failed to impersonate');
+                                  sessionStorage.setItem('adminToken', sessionStorage.getItem('vc_token'));
+                                  sessionStorage.setItem('vc_token', data.token);
+                                  sessionStorage.setItem('adminUserMode', u.id);
+                                  window.location.href = '/dashboard';
+                                } catch (err) {
+                                  alert(err.message || 'Failed to login as user.');
+                                }
                               }}
                               className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-green/10 text-green hover:bg-green/20 transition-all"
                             >
@@ -365,6 +377,25 @@ const AdminUsers = () => {
                       ) : (
                         <><ShieldOff size={14} /> Block</>
                       )}
+                    </button>
+                    <button
+                      onClick={async () => {
+                        try {
+                          const res = await fetch(`${API_BASE_URL}/api/admin/users/${u.id}/impersonate`, {
+                            method: 'POST',
+                            headers: { Authorization: `Bearer ${sessionStorage.getItem('vc_token')}` },
+                          });
+                          const data = await res.json();
+                          if (!res.ok || !data.token) throw new Error(data.message || 'Failed');
+                          sessionStorage.setItem('adminToken', sessionStorage.getItem('vc_token'));
+                          sessionStorage.setItem('vc_token', data.token);
+                          sessionStorage.setItem('adminUserMode', u.id);
+                          window.location.href = '/dashboard';
+                        } catch (err) { alert(err.message); }
+                      }}
+                      className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs font-bold bg-green/10 text-green hover:bg-green/20 transition-all"
+                    >
+                      <ShieldCheck size={14} /> Login
                     </button>
                   </div>
                 ) : (

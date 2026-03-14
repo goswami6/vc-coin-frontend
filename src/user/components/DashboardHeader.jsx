@@ -13,8 +13,13 @@ const DashboardHeader = ({ user, onMenuClick }) => {
   };
 
   const handleExitUserMode = () => {
+    const adminToken = sessionStorage.getItem('adminToken');
+    if (adminToken) {
+      sessionStorage.setItem('vc_token', adminToken);
+      sessionStorage.removeItem('adminToken');
+    }
     sessionStorage.removeItem('adminUserMode');
-    navigate('/admin');
+    window.location.href = '/admin';
   };
 
   return (
