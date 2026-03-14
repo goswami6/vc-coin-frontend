@@ -195,7 +195,7 @@ const HomePage = () => {
                 </Link>
 
                 <Link
-                  to="/exchange"
+                  to="/login"
                   className="w-full sm:w-auto px-8 py-4 bg-transparent border-2 border-cyan text-cyan font-bold rounded-lg flex items-center justify-center gap-2 hover:bg-cyan/10 transition-colors"
                 >
                   <TrendingUp size={20} strokeWidth={2.5} />
