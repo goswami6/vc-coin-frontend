@@ -30,6 +30,7 @@ const Investments = () => {
   // Popup state
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
+  const [customAmount, setCustomAmount] = useState('');
 
   useEffect(() => {
     Promise.all([
@@ -44,13 +45,18 @@ const Investments = () => {
 
   const handleInvestClick = (plan) => {
     setSelectedPlan(plan);
+    setCustomAmount(String(plan.investment_amount));
     setShowPopup(true);
   };
 
   const handleConfirmInvest = async () => {
     if (!selectedPlan) return;
-    // If insufficient balance, go to deposit page
-    if (balance < Number(selectedPlan.investment_amount)) {
+    const investAmt = Number(customAmount);
+    if (investAmt < Number(selectedPlan.investment_amount)) {
+      alert(`Minimum investment for this plan is ${selectedPlan.investment_amount} VC.`);
+      return;
+    }
+    if (balance < investAmt) {
       setShowPopup(false);
       navigate('/dashboard/deposit');
       return;
@@ -60,7 +66,7 @@ const Investments = () => {
       await api.invest({
         plan_id: selectedPlan.id,
         plan_name: selectedPlan.name,
-        amount: selectedPlan.investment_amount,
+        amount: investAmt,
         daily_roi: selectedPlan.daily_roi,
         tenure_days: selectedPlan.tenure_days,
         total_return: selectedPlan.total_return,
@@ -373,7 +379,17 @@ const Investments = () => {
               {/* Plan Info */}
               <div className="bg-white/5 border border-white/5 rounded-xl p-4 text-center">
                 <h3 className="text-lg font-bold text-white mb-1">{selectedPlan.name}</h3>
-                <p className="text-2xl font-black text-cyan">₹{Number(selectedPlan.investment_amount).toLocaleString('en-IN')}</p>
+                <div className="flex flex-col items-center gap-2">
+                  <input
+                    type="number"
+                    min={selectedPlan.investment_amount}
+                    step="0.01"
+                    value={customAmount}
+                    onChange={e => setCustomAmount(e.target.value)}
+                    className="w-32 bg-white/10 border border-cyan/30 rounded-xl px-3 py-2 text-cyan text-lg font-black text-center focus:outline-none focus:border-cyan"
+                  />
+                  <span className="text-xs text-white/40">Min: {selectedPlan.investment_amount} VC</span>
+                </div>
               </div>
 
               <p className="text-white/30 text-xs text-center">Amount will be deducted from your Main Wallet</p>
